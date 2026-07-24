@@ -1,0 +1,114 @@
+import random
+import re
+from colorama import Fore, init
+
+# Enable colored text
+init(autoreset=True)
+
+# Travel categories
+places = {
+    "beach": ["Maldives", "Bali", "Phuket"],
+    "mountain": ["Himalayas", "Swiss Alps", "Rocky Mountains"],
+    "city": ["Tokyo", "Paris", "New York"]
+}
+
+# Fun travel jokes
+travel_jokes = [
+    "Why don't programmers enjoy hiking? Too many bugs!",
+    "My suitcase lost weight... now it's just carry-on!",
+    "Vacation calories don't count!"
+]
+
+
+def clean_text(text):
+    """Remove extra spaces and convert to lowercase."""
+    return re.sub(r"\s+", " ", text.strip().lower())
+
+
+def suggest_place():
+    while True:
+        print(Fore.CYAN + "\nChoose a destination type:")
+        print(Fore.GREEN + "Beach | Mountain | City")
+
+        choice = clean_text(input(Fore.YELLOW + "You: "))
+
+        if choice in places:
+            location = random.choice(places[choice])
+
+            print(Fore.GREEN + f"I think you'd enjoy visiting {location}.")
+            reply = clean_text(input(Fore.CYAN + "Would you like another suggestion? (yes/no): "))
+
+            if reply == "no":
+                print(Fore.GREEN + f"Great! Hope you enjoy {location}.")
+                break
+        else:
+            print(Fore.RED + "Sorry, I only know Beach, Mountain, and City destinations.")
+
+
+def packing_advice():
+    destination = clean_text(input(Fore.CYAN + "\nDestination: "))
+    trip_days = input(Fore.CYAN + "Trip duration (days): ")
+
+    print(Fore.GREEN + f"\nPacking tips for {destination}:")
+    print("- Comfortable clothes")
+    print("- Phone charger and power bank")
+    print("- Important travel documents")
+    print("- Check the weather before leaving")
+    print(f"- Pack enough clothes for about {trip_days} days")
+
+
+def make_joke():
+    print(Fore.MAGENTA + random.choice(travel_jokes))
+
+
+def menu():
+    print(Fore.BLUE + "\nWhat would you like to do?")
+    print("1. Travel recommendation")
+    print("2. Packing tips")
+    print("3. Tell me a joke")
+    print("4. Help")
+    print("5. Exit")
+
+
+def help_section():
+    print(Fore.CYAN + "\nCommands you can type:")
+    print("- recommendation")
+    print("- packing")
+    print("- joke")
+    print("- help")
+    print("- exit")
+
+
+def start_chat():
+    print(Fore.CYAN + "Welcome to my Travel Assistant!")
+
+    user = input(Fore.YELLOW + "Enter your name: ")
+    print(Fore.GREEN + f"Hi {user}, nice to meet you!")
+
+    help_section()
+
+    while True:
+        command = clean_text(input(Fore.YELLOW + f"\n{user}: "))
+
+        if "recommend" in command or "suggest" in command:
+            suggest_place()
+
+        elif "pack" in command:
+            packing_advice()
+
+        elif "joke" in command or "funny" in command:
+            make_joke()
+
+        elif "help" in command:
+            help_section()
+
+        elif command in ["exit", "bye", "quit"]:
+            print(Fore.CYAN + "Have a wonderful trip. Goodbye!")
+            break
+
+        else:
+            print(Fore.RED + "I didn't understand that. Type 'help' to see the options.")
+
+
+if __name__ == "__main__":
+    start_chat()
